@@ -1,0 +1,38 @@
+name: Deploy Node.js App to EC2 via SSM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-north-1  # Replace with your region
+
+    - name: Deploy via SSM
+      run: |
+        aws ssm send-command \
+          --document-name "AWS-RunShellScript" \
+          --comment "GitHub Actions Deployment" \
+          --instance-ids "i-0100a5d6d7ced3f55" \  # Replace with your EC2 instance ID
+          --parameters 'commands=[
+            "cd ~/myapp || git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git ~/myapp",
+            "cd ~/myapp",
+            "git pull origin main",
+            "npm install",
+            "pm2 startOrReload ecosystem.config.js || pm2 start server.js --name myapp"
+          ]' \
+          --output text \
+          --query "Command.CommandId"
