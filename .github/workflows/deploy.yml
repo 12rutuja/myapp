@@ -28,7 +28,7 @@ jobs:
           --comment "GitHub Actions Deployment" \
           --instance-ids "i-0100a5d6d7ced3f55" \  # Replace with your EC2 instance ID
           --parameters 'commands=[
-            "cd ~/myapp || git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git ~/myapp",
+            "cd ~/myapp || git clone https://github.com/12rutuja/myapp.git ~/myapp",
             "cd ~/myapp",
             "git pull origin main",
             "npm install",
