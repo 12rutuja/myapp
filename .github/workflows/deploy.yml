@@ -35,7 +35,7 @@ jobs:
           # Send commands to EC2 via SSM
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --comment "Deploying DadJokes App" \
+            --comment "Deploying myapp" \
             --instance-ids "$INSTANCE_ID" \
-            --parameters commands="cd ~/dadjokes && git pull origin main && npm install && pm2 restart dadjokes || pm2 start server.js --name dadjokes" \
+            --parameters commands="cd ~/myapp && git pull origin main && npm install && pm2 restart dadjokes || pm2 start server.js --name dadjokes" \
             --region "$AWS_REGION"
