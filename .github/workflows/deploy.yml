@@ -26,7 +26,7 @@ jobs:
         aws ssm send-command \
           --document-name "AWS-RunShellScript" \
           --comment "GitHub Actions Deployment" \
-          --instance-ids "i-0100a5d6d7ced3f55" \  # Replace with your EC2 instance ID
+          --instance-ids "i-0100a5d6d7ced3f55" \ 
           --parameters 'commands=[
             "cd ~/myapp || git clone https://github.com/12rutuja/myapp.git ~/myapp",
             "cd ~/myapp",
